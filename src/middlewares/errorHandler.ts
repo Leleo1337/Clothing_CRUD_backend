@@ -14,9 +14,7 @@ function errorHandlerMiddleware(err: any, req: Request, res: Response, next: Nex
    }
 
    if (err instanceof MongooseError.ValidationError) {
-      customError.msg = Object.values(err.errors)
-         .map((item: any) => item.message)
-         .join(", ");
+      customError.msg = `Estão faltando os seguintes items: ${Object.keys(err.errors)}`
       customError.statusCode = StatusCodes.BAD_REQUEST;
    }
 

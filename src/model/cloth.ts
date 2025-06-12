@@ -14,6 +14,7 @@ const clothSchema = new mongoose.Schema({
    price: {
       type: String,
       required: [true, "insira um preço"],
+      trim: true
    },
    size: {
       type: String,

@@ -14,6 +14,7 @@ app.use(express.json())
 app.use(cors())
 
 // routes
+app.get('/', (req: any, res: any) => res.send('cloth api, go to /api/v1/cloths'))
 app.use("/api/v1/cloths", cloths);
 
 // errors handlers middlewares

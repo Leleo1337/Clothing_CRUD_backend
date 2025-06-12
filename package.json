@@ -7,7 +7,7 @@
    "type": "commonjs",
    "main": "dist/server.js",
    "scripts": {
-      "build": "tsc --build",
+      "build": "tsc",
       "dev": "nodemon ./src/server.ts",
       "start": "node ./dist/server.js"
    },

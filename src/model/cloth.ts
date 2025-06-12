@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const clothSchema = new mongoose.Schema({
    name: {
@@ -8,7 +9,7 @@ const clothSchema = new mongoose.Schema({
    },
    quantity: {
       type: Number,
-      required: [true, "insira uma quantity"],
+      required: [true, "insira uma quantidade"],
    },
    price: {
       type: Number,
@@ -16,14 +17,16 @@ const clothSchema = new mongoose.Schema({
    },
    size: {
       type: String,
-      required: [true, "Por favor insira um tamanho ( PP | P  | M | G | GG | XG | XGG | EG | EGG )"],
+      required: [true, "Insira um tamanho valido ( PP | P  | M | G | GG | XG | XGG | EG | EGG )"],
       enum: {
-        values: ["PP", "P", "M", "G", "GG", "XG", "XGG", "EG", "EGG"],
-        message: '{VALUE} não é suportado, insira um tamanho PP | P  | M | G | GG | XG | XGG | EG | EGG'
+         values: ["PP", "P", "M", "G", "GG", "XG", "XGG", "EG", "EGG"],
+         message: "{VALUE} não é suportado, insira um tamanho PP | P  | M | G | GG | XG | XGG | EG | EGG",
       },
-      trim: true
+      trim: true,
    },
 });
+
+clothSchema.plugin(autoIncrement, {inc_field: "clothID"})
 
 const Cloth = mongoose.model("cloths", clothSchema);
 

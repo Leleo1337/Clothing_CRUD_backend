@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-const autoIncrement = require('mongoose-sequence')(mongoose);
+import formatPrice from "../utils/formatPrice";
+const autoIncrement = require("mongoose-sequence")(mongoose);
 
 const clothSchema = new mongoose.Schema({
    name: {
@@ -14,7 +15,6 @@ const clothSchema = new mongoose.Schema({
    price: {
       type: String,
       required: [true, "insira um preço"],
-      trim: true
    },
    size: {
       type: String,
@@ -27,7 +27,14 @@ const clothSchema = new mongoose.Schema({
    },
 });
 
-clothSchema.plugin(autoIncrement, {inc_field: "clothID"})
+clothSchema.pre("save", function (next) {
+   if (this.price !== undefined && this.price !== null) {
+      this.price = formatPrice(this.price);
+   }
+   next();
+});
+
+clothSchema.plugin(autoIncrement, { inc_field: "clothID" });
 
 const Cloth = mongoose.model("cloths", clothSchema);
 

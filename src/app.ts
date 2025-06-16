@@ -5,6 +5,7 @@ import cloths from "./routes/cloths";
 import auth from "./routes/auth";
 import errorHandlerMiddleware from "./middlewares/errorHandler";
 import routeNotFound from "./middlewares/routeNotFound";
+import authenticationMiddleware from "./middlewares/authentication";
 
 configDotenv();
 
@@ -17,7 +18,7 @@ app.use(cors());
 // routes
 app.get("/", (req: any, res: any) => res.send("cloth api, go to /api/v1/cloths"));
 app.use("/api/v1/auth", auth);
-app.use("/api/v1/cloths", cloths);
+app.use("/api/v1/cloths", authenticationMiddleware, cloths);
 
 // errors handlers middlewares
 app.use(errorHandlerMiddleware);

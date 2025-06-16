@@ -14,17 +14,22 @@ function errorHandlerMiddleware(err: any, req: Request, res: Response, next: Nex
    }
 
    if (err instanceof MongooseError.ValidationError) {
-      customError.msg = `Estão faltando os seguintes items: ${Object.keys(err.errors)}`
+      customError.msg = Object.values(err.errors)
+         .map((item) => item.message)
+         .join(", ");
       customError.statusCode = StatusCodes.BAD_REQUEST;
    }
 
    if (err instanceof MongooseError.CastError) {
-      customError.msg = `No cloth with id ${err.value} found`
+      customError.msg = `No cloth with id ${err.value} found`;
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+   }
+   if (err instanceof MongooseError) {
+      customError.msg = err.message;
       customError.statusCode = StatusCodes.BAD_REQUEST;
    }
 
-   if(err instanceof MongooseError)
-
+   console.log(err);
    return res.status(customError.statusCode).json({ msg: customError.msg });
 }
 

@@ -1,18 +1,12 @@
 import mongoose from "mongoose";
-
-interface IUser extends Document{
-   name?: string;
-   email?: string;
-   password?: string;
-   createToken(): string;
-   comparePassword(password: string): Promise<boolean>;
-}
+import jwt from "jsonwebtoken";
+import { compareValue, hashValue } from "../utils/bcrypt";
+import { IUser } from "../types/IUser";
 
 const UserSchema = new mongoose.Schema<IUser>({
    name: {
       type: String,
       required: [true, "Insira um nome"],
-      unique: [true, "Nome já cadastrado"],
    },
    email: {
       type: String,
@@ -21,13 +15,27 @@ const UserSchema = new mongoose.Schema<IUser>({
          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
          "Insira um email valido",
       ],
-      unique: true,
+      unique: [true, "Usuario já cadastrado"],
    },
    password: {
       type: String,
       required: [true, "insira uma senha"],
+      minLength: [6, "Senha muito curta"],
    },
 });
-const User = mongoose.model("User", UserSchema);
+
+UserSchema.pre("save", async function (next) {
+   return (this.password = await hashValue(this.password));
+});
+
+UserSchema.methods.createToken = function (val: string) {
+   return jwt.sign({ userID: this._id, name: this.name }, process.env.JWT_SECRET!, { expiresIn: "30d" });
+};
+
+UserSchema.methods.comparePassword = async function (val: string) {
+   return compareValue(val, this.password);
+};
+
+const User = mongoose.model<IUser>("User", UserSchema);
 
 export default User;

@@ -1,5 +1,6 @@
 import { exit } from "process";
 import app from "./app";
+import '../@types'
 import connectDB from "./db/connect";
 
 const MONGO_URI = process.env.MONGO_URI;

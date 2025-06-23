@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Unauthenticated from "../errors/unauthenticated";
 import { NextFunction, Request, Response } from "express";
-import User from "../model/user";
+import User from "../models/user";
 
 async function authenticationMiddleware(req: Request, res: Response, next: NextFunction) {
    const authHeader = req.headers.authorization;

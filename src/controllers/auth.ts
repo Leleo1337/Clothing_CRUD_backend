@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import User from "../model/user";
+import User from "../models/user";
 import BadRequest from "../errors/badRequest";
 import Unauthenticated from "../errors/unauthenticated";
 

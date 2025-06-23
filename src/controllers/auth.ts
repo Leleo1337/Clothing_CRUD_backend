@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import User from "../model/user";
+import User from "../models/user";
 import BadRequest from "../errors/badRequest";
 import Unauthenticated from "../errors/unauthenticated";
 
@@ -17,23 +17,23 @@ export async function login(req: Request, res: Response) {
    const { name, email, password } = req.body;
 
    if (!name && !email) {
-      throw new BadRequest("Please provide email or name");
+      throw new BadRequest("Insira nome ou e-mail");
    }
 
    if (!password) {
-      throw new BadRequest("Please provide password");
+      throw new BadRequest("Insira sua senha");
    }
 
    const user = await User.findOne({ $or: [{ email }, { name }] });
 
    if (!user) {
-      throw new Unauthenticated("Invalid email or password");
+      throw new Unauthenticated("usuario ou senha incorretos");
    }
 
    const isPasswordCorrect = await user.comparePassword(password);
 
    if (!isPasswordCorrect) {
-      throw new Unauthenticated("Invalid email or password");
+      throw new Unauthenticated("usuario ou senha incorretos");
    }
 
    const token = user.createToken();

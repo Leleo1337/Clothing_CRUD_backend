@@ -1,9 +1,8 @@
-function formatPrice(amount: string | undefined): string {
-   const numAmout = Number(amount)
-   return Intl.NumberFormat("BRL", {
-      style: "currency",
-      currency: 'BRL'
-   }).format(numAmout);
+function formatPrice(amount: number): string {
+	return Intl.NumberFormat('BRL', {
+		style: 'currency',
+		currency: 'BRL',
+	}).format(amount);
 }
 
 export default formatPrice;

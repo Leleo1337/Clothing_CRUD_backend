@@ -1,13 +1,13 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Unauthenticated from "../errors/unauthenticated";
 import { NextFunction, Request, Response } from "express";
-import User from "../model/user";
+import User from "../models/user";
 
 async function authenticationMiddleware(req: Request, res: Response, next: NextFunction) {
    const authHeader = req.headers.authorization;
 
    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new Unauthenticated("You must log in to access this");
+      throw new Unauthenticated("Você deve estar logado para acessar isso!");
    }
 
    const token = authHeader.split(" ")[1];
@@ -19,13 +19,13 @@ async function authenticationMiddleware(req: Request, res: Response, next: NextF
       const user = await User.findById(userID).select("-password -__v");
 
       if (!user) {
-         throw new Unauthenticated("invalid token");
+         throw new Unauthenticated("token invalido");
       }
 
       req.user = { userID: userID, userData: { name: user.name, email: user.email } };
       next();
    } catch (error) {
-      throw new Unauthenticated("You must log in to access this");
+      throw new Unauthenticated("Você deve estar logado para acessar isso!");
    }
 }
 

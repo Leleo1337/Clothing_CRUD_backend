@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { compareValue, hashValue } from "../utils/bcrypt";
-import { IUser } from "../types/IUser";
+import { IUser } from "../interfaces/IUser";
 
 const UserSchema = new mongoose.Schema<IUser>({
    name: {

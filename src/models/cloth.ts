@@ -19,7 +19,7 @@ const clothSchema = new mongoose.Schema<ICloth>(
 			type: Number,
 			required: [true, 'insira um preço'],
 		},
-		formatedPrice: {
+		formattedPrice: {
 			type: String,
 		},
 		size: {
@@ -42,7 +42,7 @@ const clothSchema = new mongoose.Schema<ICloth>(
 
 clothSchema.pre('save', function (next) {
 	if (this.price !== undefined && this.price !== null) {
-		this.formatedPrice = formatPrice(this.price);
+		this.formattedPrice = formatPrice(this.price);
 	}
 	next();
 });
@@ -50,7 +50,7 @@ clothSchema.pre('save', function (next) {
 clothSchema.pre('findOneAndUpdate', function (this: any, next) {
    const update = this.getUpdate()
 	if (update && update !== undefined && update.price !== null) {
-      update.formatedPrice = formatPrice(update.price)
+      update.formattedPrice = formatPrice(update.price)
       this.setUpdate(update)
    }
    next()

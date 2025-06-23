@@ -24,7 +24,8 @@ function errorHandlerMiddleware(err: any, req: Request, res: Response, next: Nex
 		customError.msg = `Nenhum item com id: ${err.value} encontrado`;
 		customError.statusCode = StatusCodes.BAD_REQUEST;
 	}
-	if (err.cause.code === 11000) {
+
+	if (err.cause && err.cause.code === 11000) {
 		customError.msg = 'Usuario já cadastrado';
 		customError.statusCode = StatusCodes.BAD_REQUEST;
 	}

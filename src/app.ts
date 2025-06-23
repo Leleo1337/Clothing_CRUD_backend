@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { configDotenv } from "dotenv";
-import cloths from "./routes/cloths";
+import clothes from './routes/clothes'
 import auth from "./routes/auth";
 import errorHandlerMiddleware from "./middlewares/errorHandler";
 import routeNotFound from "./middlewares/routeNotFound";
@@ -19,9 +19,9 @@ app.use(cors());
 app.use(helmet())
 
 // routes
-app.get("/", (req: any, res: any) => res.send("cloth api, go to /api/v1/cloths"));
+app.get("/", (req: any, res: any) => res.send("cloth api, go to /api/v1/clothes"));
 app.use("/api/v1/auth", authLimiter, auth);
-app.use("/api/v1/cloths", authenticationMiddleware, apiLimiter, cloths);
+app.use("/api/v1/clothes", authenticationMiddleware,apiLimiter, clothes);
 
 // errors middlewares
 app.use(errorHandlerMiddleware);

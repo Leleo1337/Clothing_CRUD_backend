@@ -4,10 +4,10 @@ import Cloth from '../models/cloth';
 import notFound from '../errors/notFound';
 import BadRequest from '../errors/badRequest';
 
-export async function getAllCloths(req: Request, res: Response) {
-	const cloths = await Cloth.find({ createdBy: req.user?.userID });
+export async function getAllClothes(req: Request, res: Response) {
+	const clothes = await Cloth.find({ createdBy: req.user?.userID });
 
-	res.status(StatusCodes.OK).json({ success: true, data: cloths });
+	res.status(StatusCodes.OK).json({ success: true, data: clothes });
 }
 export async function getCloth(req: Request, res: Response) {
 	const { id: clothID } = req.params;
